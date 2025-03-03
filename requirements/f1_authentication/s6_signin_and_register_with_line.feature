@@ -1,16 +1,15 @@
-@epic_authentication
-Feature: [Epic] Sign-in and Register with Line
+@authentication @social @line
+Feature: [Story] User wants to sign-in and register with Line
+  As a user
+  I want to be able to authenticate myself using my Line account
+  So that I can access the platform securely without creating new credentials
 
   Background:
     Given the user is on the authentication page
     And the user is not logged in
 
-  @story_signin @task_social_authentication
-  Scenario: [Story] User wants to sign in with Line
-    As a user with a Line account
-    I want to sign in using my Line credentials
-    So that I can access the platform without creating or remembering separate credentials
-
+  @signin @positive
+  Scenario: Sign-in with Line
     Given the user is on the sign-in page
     When the user selects the "Sign in with Line" option
     Then the user should be redirected to the Line authentication page
@@ -20,12 +19,8 @@ Feature: [Epic] Sign-in and Register with Line
     And the user should be successfully authenticated
     And redirected to the dashboard
 
-  @story_signin @task_error_handling
-  Scenario: [Story] User wants to cancel Line authentication
-    As a user
-    I want to be able to cancel the Line authentication process
-    So that I can control when and if I connect my Line account
-
+  @signin @negative
+  Scenario: Sign-in with Line - authentication cancelled
     Given the user is on the sign-in page
     When the user selects the "Sign in with Line" option
     Then the user should be redirected to the Line authentication page
@@ -34,12 +29,8 @@ Feature: [Epic] Sign-in and Register with Line
     And the user should see a message "Authentication cancelled"
     And remain on the sign-in page
 
-  @story_registration @task_social_authentication
-  Scenario: [Story] User wants to register with Line
-    As a new user with a Line account
-    I want to create an account using my Line profile
-    So that I can access the platform without creating separate credentials
-
+  @register @positive
+  Scenario: Register with Line (first time)
     Given the user is on the registration page
     When the user selects the "Sign up with Line" option
     Then the user should be redirected to the Line authentication page
@@ -50,12 +41,8 @@ Feature: [Epic] Sign-in and Register with Line
     And the user should be successfully authenticated
     And redirected to the onboarding flow
 
-  @story_signin @task_error_handling
-  Scenario: [Story] User wants appropriate guidance when Line account is not registered
-    As a user
-    I want clear feedback when my Line account isn't linked to an existing account
-    So that I can understand why sign-in failed and what actions I can take
-
+  @signin @negative
+  Scenario: Sign-in with Line - account does not exist
     Given the user is on the sign-in page
     When the user selects the "Sign in with Line" option
     Then the user should be redirected to the Line authentication page
@@ -65,12 +52,8 @@ Feature: [Epic] Sign-in and Register with Line
     Then the user should see a message "No account found with this Line account"
     And be prompted to register
 
-  @story_signin @task_error_handling
-  Scenario: [Story] User wants appropriate error when declining permissions
-    As a user
-    I want clear feedback when I decline necessary permissions
-    So that I understand why the authentication process couldn't be completed
-
+  @permissions @negative
+  Scenario: Sign-in with Line - insufficient permissions
     Given the user is on the sign-in page
     When the user selects the "Sign in with Line" option
     Then the user should be redirected to the Line authentication page
